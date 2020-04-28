@@ -1,0 +1,20 @@
+{
+  "name": "netspeed",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "cspilker",
+  "license": "ISC",
+  "dependencies": {
+    "@vue/cli": "^4.3.1",
+    "@vue/cli-service": "^4.3.1",
+    "cors": "^2.8.5",
+    "dns": "^0.2.2",
+    "mongodb": "^3.5.6",
+    "node-nmap": "^4.0.0",
+    "speedtest-net": "^2.1.1"
+  }
+}
