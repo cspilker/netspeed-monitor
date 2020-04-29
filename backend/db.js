@@ -46,11 +46,11 @@ function drop() {
 }
 
 
- function selectData() {
+ function selectData(datefrom, dateto) {
     mdbClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
         if (err) throw err;
 
-        console.log("Connected to 'speedDB' (MongoDB)");
+        console.log("Connected to MongoDB");
 
         var dbo = db.db("speedDB");
 
