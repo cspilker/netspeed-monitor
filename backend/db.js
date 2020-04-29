@@ -46,7 +46,7 @@ function drop() {
 }
 
 
- function selectAll() {
+ function selectData() {
     mdbClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
         if (err) throw err;
 
@@ -58,11 +58,13 @@ function drop() {
             if (err) throw err;
             console.log(data);
             db.close();
+            return data;
         });
         
         
     })
+
 }
 
 exports.insert = insert;
-exports.selectAll = selectAll;
+exports.selectData = selectData;

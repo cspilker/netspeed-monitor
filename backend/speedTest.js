@@ -73,10 +73,7 @@ exports.getStatus = function getStatus(cb) {
 exports.getDevices = function getDevices(cb) {
     var scan = new nmap.NmapScan('192.168.178.*','-sP');
     scan.on('complete',function(data){
-        console.log(data);
         cb(data.length);
       });
-
-  console.log("dv");
 }
 

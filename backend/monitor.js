@@ -8,7 +8,9 @@ var active = false;
 // test.getTestResults((data) => {db.insert(data)});
 
 function startMonitor() {
+   
     if (!active){
+       
         var i = setInterval(() => {
             console.log("diese");
             test.getTestResults((data) => { db.insert(data) });
@@ -17,6 +19,8 @@ function startMonitor() {
                 clearInterval(i);
             }
         }, 60000);}
+
+        active = true;
 }
 
 exports.stopMonitor = function stopMonitor() {

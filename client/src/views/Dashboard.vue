@@ -84,7 +84,7 @@
       </div>
       <div style=" padding-top: 0px; float:top; clear:both ">
         <button
-          v-on:click="changeData"
+          v-on:click="startMonitor"
           style="margin: 5px; margin-right: 25px; float: left;
          font-size: 15px; height:22px; width: 50px"
         >{{ loadText }}<sync-loader
@@ -92,10 +92,10 @@
             color="blue"
             size="7px"
           ></sync-loader></button>
-        <select @change="onChangeSelect($event)" v-model="key"
+        <select @change="onChangeSelect($event)"
         style="margin: 5px; font-size: 15px; float: left;
              height:22px">
-          <option value="1">Last Hour</option>
+          <option value="1" selected>Last Hour</option>
           <option value="2">Last Day</option>
           <option value="3">Last Week</option>
           <option value="4">Other</option>
@@ -192,6 +192,7 @@ export default {
     datetime: Datetime,
     SyncLoader,
   },
+
   methods: {
     onChangeSelect(event) {
       if (event.target.value === '4') {
@@ -199,12 +200,34 @@ export default {
       } else {
         this.displayDatePicker = false;
       }
-      console.log(event.target.value);
-      console.log(this.displayDatePicker);
+      this.changeData();
+      this.getChartData(event.target.value);
     },
+
+    getChartData(selectedValue) {
+      let params = '';
+      console.log('getChartData: ', selectedValue);
+      const fromDatetime = new Date();
+      const toDateTime = new Date();
+      if (selectedValue === '1') {
+        fromDatetime.setHours(fromDatetime.getHours() - 1);
+      }
+      console.log('frfr', fromDatetime.toJSON(), toDateTime.toJSON());
+      params = '?fromDatetime='.concat(fromDatetime.toJSON());
+
+      fetch('http://localhost:8081/api/getTestResults/'.concat(params))
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+        });
+    },
+
+    startStopMonitor() {
+
+    },
+
     changeData() {
       // this.loaded = false;
-      console.log('Klick!');
       fetch('http://localhost:8081/api/getTestResults/')
         .then((response) => response.json())
         .then((result) => {
@@ -220,9 +243,7 @@ export default {
           this.dataChart.labels = result.labels;
         });
     },
-    updateDataExample() {
-      this.chartdata.datasets[0].data = this.data;
-    },
+
     checkStatus() {
       fetch('http://localhost:8081/api/getMonitorStatus/')
         .then((response) => response.json())
@@ -258,12 +279,12 @@ export default {
             });
         });
     },
-    click2() {
+    click2(err) {
       this.$notify({
         group: 'output',
-        position: 'top right',
+        position: 'bottom left',
         title: 'Error',
-        text: "Couldn't connect to backend!",
+        text: ("Couldn't connect to backend!\n", err),
         type: 'error',
       });
     },
@@ -277,18 +298,7 @@ export default {
         }
       }, 1000);
     },
-    dat2() {
-      this.loaded = false;
-      console.log('Klick!');
-      fetch('http://localhost:8081/api/getTestResults/')
-        .then((response) => response.json())
-        .then((result) => {
-          this.chartdata = result.chartdata;
-          console.log('d: ', result.chartdata.labels[1]);
-          this.updateDataExample();
-          this.loaded = true;
-        });
-    },
+
     click3() {
       console.log('Klick!');
       fetch(API_URL)
@@ -307,6 +317,7 @@ export default {
     },
     startMonitor() {
       fetch('http://localhost:8081/api/startMonitor/').then((res) => {
+        if (!res.ok) this.click2(res.statusText);
         console.log(res);
         this.$notify({
           group: 'output',
