@@ -200,7 +200,7 @@ export default {
       } else {
         this.displayDatePicker = false;
       }
-      this.changeData();
+      // this.changeData();
       this.getChartData(event.target.value);
     },
 
@@ -208,13 +208,14 @@ export default {
       let params = '';
       console.log('getChartData: ', selectedValue);
       const fromDatetime = new Date();
-      const toDateTime = new Date();
+      const toDatetime = new Date();
       if (selectedValue === '1') {
         fromDatetime.setHours(fromDatetime.getHours() - 1);
       }
-      console.log('frfr', fromDatetime.toJSON(), toDateTime.toJSON());
+      console.log('frfr', fromDatetime.toJSON(), toDatetime.toJSON());
       params = '?fromDatetime='.concat(fromDatetime.toJSON());
-
+      params = params.concat('&toDatetime='.concat(toDatetime.toJSON()));
+      console.log(params);
       fetch('http://localhost:8081/api/getTestResults/'.concat(params))
         .then((response) => response.json())
         .then((result) => {

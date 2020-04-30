@@ -48,10 +48,11 @@ app.get('/api/getTestResults/', function (req, res) {
     console.log('Incoming GET request:  \'getTestResults\'');
 
     let fromDatetime = new Date(req.query.fromDatetime);
-    let toDatetime = new Date(req.query.fromDatetime);
+    let toDatetime = new Date(req.query.toDatetime);
 
     // console.log(fromDatetime.getHours() + '' +  toDatetime);
-    console.log(db.selectData(fromDatetime, toDatetime));
+    console.log('from:', fromDatetime, toDatetime);
+    console.log("res: " + db.selectData(fromDatetime, new Date(toDatetime)));
 
     var data = {
             labels: ['11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'],
@@ -74,7 +75,6 @@ app.get('/api/startMonitor/', function (req, res) {
 
 app.get('/api/getMonitorStatus/', function (req, res) {
     console.log('Incoming GET request:  \'getMonitorStatus\'');
-    monitor.startMonitor();
     setTimeout(() => {
         res.json({ monitorActive: true}); 
     }, 2000);

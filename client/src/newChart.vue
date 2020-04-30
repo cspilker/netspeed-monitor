@@ -43,7 +43,10 @@ export default {
             },
           ],
         },
-        { responsive: true, maintainAspectRatio: false },
+        { responsive: true, maintainAspectRatio: false,
+             scales: {xAxes: [{type: 'time', time: {unit: 'minute',unitStepSize: 5,displayFormats: {
+           'minute': 'mm'
+        } } }]}},
       );
     },
   },

@@ -18,11 +18,11 @@ function insert(data) {
 
         dbo.collection("speed").insertOne(data, function (err) {
             if (err) throw err;
-            console.log("1 document inserted"+"\n"+err+"\n");
+            console.log("1 document inserted" + "\n" + err + "\n");
             db.close();
         });
-        
-        
+
+
     })
 }
 
@@ -40,30 +40,32 @@ function drop() {
             console.log("deleted all data");
             db.close();
         });
-        
-        
+
+
     })
 }
 
 
- function selectData(datefrom, dateto) {
+function selectData(datefrom, dateto) {
     mdbClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
         if (err) throw err;
 
         console.log("Connected to MongoDB");
 
-        var dbo = db.db("speedDB");
+        var speedDB = db.db("speedDB").collection("speed");
 
-        dbo.collection("speed").find().toArray((err, data) => {
-            if (err) throw err;
-            console.log(data);
+        speedDB.find({
+            d: {
+                $gte: new Date(datefrom),
+                $lt: new Date(dateto)
+            }
+        }).toArray((err, dat) => {
+
+            console.log(dat);
             db.close();
-            return data;
+            return dat;
         });
-        
-        
-    })
-
+    });
 }
 
 exports.insert = insert;
