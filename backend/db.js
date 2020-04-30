@@ -59,13 +59,25 @@ function selectData(datefrom, dateto) {
                 $gte: new Date(datefrom),
                 $lt: new Date(dateto)
             }
-        }).toArray((err, dat) => {
-
-            console.log(dat);
+        }).sort({ d: 1 }).toArray((err, dat) => {
+           
+            console.log(resolveBuckets(dat));
             db.close();
             return dat;
         });
     });
+}
+
+function resolveBuckets(dat){
+    arr = [];
+    dat.forEach(el => {
+        for (let index = 0; index <= 60; index = index + 1) {
+            if( el.p[index] != null){
+            arr.push({ y: el.p[index] } );
+            }
+        }
+    });
+    return arr;
 }
 
 exports.insert = insert;
