@@ -53,27 +53,32 @@ function selectData(datefrom, dateto) {
         console.log("Connected to MongoDB");
 
         var speedDB = db.db("speedDB").collection("speed");
-
+        var e = new Date(dateto.getFullYear(), dateto.getMonth(), dateto.getDate(), dateto.getHours());
+        console.log(e);
         speedDB.find({
             d: {
-                $gte: new Date(datefrom),
-                $lt: new Date(dateto)
+                $gte: new Date(datefrom.getFullYear(), datefrom.getMonth(), datefrom.getDate(), datefrom.getHours(), 0, 0, 0),
+                $lt: new Date(dateto.getFullYear(), dateto.getMonth(), dateto.getDate(), dateto.getHours(), 59, 0, 0)
             }
         }).sort({ d: 1 }).toArray((err, dat) => {
            
-            console.log(resolveBuckets(dat));
+            console.log(resolveBuckets(dat, datefrom, dateto));
             db.close();
             return dat;
         });
     });
 }
 
-function resolveBuckets(dat){
+function resolveBuckets(dat, datefrom, dateto){
     arr = [];
     dat.forEach(el => {
         for (let index = 0; index <= 60; index = index + 1) {
-            if( el.p[index] != null){
-            arr.push({ y: el.p[index] } );
+            if( el.p[index] != null){                
+                var d = el.d.setMinutes(index);
+                console.log(d, datefrom);
+                 if (new Date(d) > datefrom ) {
+                    arr.push({ y: el.p[index], x: new Date(d) } );
+                 }
             }
         }
     });

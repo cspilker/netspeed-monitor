@@ -52,7 +52,7 @@ app.get('/api/getTestResults/', function (req, res) {
 
     // console.log(fromDatetime.getHours() + '' +  toDatetime);
     console.log('from:', fromDatetime, toDatetime);
-    console.log("res: " + db.selectData(fromDatetime, new Date(toDatetime)));
+    console.log("res: " + db.selectData(fromDatetime, toDatetime));
 
     var data = {
             labels: ['11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'],

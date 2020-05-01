@@ -182,7 +182,7 @@ export default {
   }),
 
   mounted() {
-    this.start();
+    // this.start();
     // this.dat2();
     this.checkStatus();
   },
@@ -211,6 +211,10 @@ export default {
       const toDatetime = new Date();
       if (selectedValue === '1') {
         fromDatetime.setHours(fromDatetime.getHours() - 1);
+      } else if (selectedValue === '2') {
+        fromDatetime.setHours(fromDatetime.getHours() - 24);
+      } else if (selectedValue === '3') {
+        fromDatetime.setHours(fromDatetime.getHours() - 168);
       }
       console.log('frfr', fromDatetime.toJSON(), toDatetime.toJSON());
       params = '?fromDatetime='.concat(fromDatetime.toJSON());
