@@ -18,9 +18,9 @@
     "vue-spinner": "^1.0.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-eslint": "~4.3.0",
+    "@vue/cli-plugin-eslint": "~5.0.8",
     "@vue/cli-plugin-router": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
+    "@vue/cli-service": "~5.0.8",
     "@vue/eslint-config-airbnb": "^5.0.2",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.2",
